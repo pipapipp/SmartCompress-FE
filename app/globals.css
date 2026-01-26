@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+/* LIGHT */
+:root {
+  --color-bg: #f8fafc;
+  --color-text: #0f172a;
+  --color-card: #ffffff;
+  --color-border: #e2e8f0;
+  --color-primary: #2563eb;
+  --color-success: #22c55e;
+}
+
+/* DARK */
+.dark {
+  --color-bg: #0f172a;
+  --color-text: #f1f5f9;
+  --color-card: #1e293b;
+  --color-border: #334155;
+  --color-primary: #3b82f6;
+  --color-success: #22c55e;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+html {
+  scroll-behavior: smooth;
+}
