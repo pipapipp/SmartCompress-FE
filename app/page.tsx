@@ -6,9 +6,12 @@ import {
 } from "react-icons/fa";
 
 export default function Home() {
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [dark, setDark] = useState(false);
-  const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(null);
+
 
   const toggleDark = () => {
     setDark(!dark);
@@ -16,11 +19,47 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!file) return;
+    if (!file) {
+      setPreview(null);
+      return;
+    }
+
     if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
-      setPreview(URL.createObjectURL(file));
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+
+      return () => URL.revokeObjectURL(url);
     }
   }, [file]);
+
+  const handleCompress = async () => {
+    if (!file) return alert("Pilih file dulu!");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:5000/compress-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Upload gagal");
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      setDownloadUrl(url);
+
+    } catch (err) {
+      console.error(err);
+      alert("Backend belum jalan atau error.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   /* ===== ANIMATION VARIANTS ===== */
 
@@ -92,12 +131,12 @@ export default function Home() {
 
       {/* FEATURES */}
       <motion.section
-  id="features"
-  variants={stagger}
-  initial="hidden"
-  animate="show"
-  className="py-20 px-6 bg-black/5 dark:bg-white/5"
->
+        id="features"
+        variants={stagger}
+        initial="hidden"
+        animate="show"
+        className="py-20 px-6 bg-black/5 dark:bg-white/5"
+      >
 
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center">
 
@@ -116,8 +155,8 @@ export default function Home() {
                 {i === 0
                   ? "Optimized processing for instant results."
                   : i === 1
-                  ? "Files auto-deleted after processing."
-                  : "Smart compression keeps visuals sharp."}
+                    ? "Files auto-deleted after processing."
+                    : "Smart compression keeps visuals sharp."}
               </p>
             </motion.div>
           ))}
@@ -157,7 +196,7 @@ export default function Home() {
             whileHover={{ scale: 1.02 }}
             className="border-2 border-dashed border-[var(--color-border)] rounded-3xl p-14 bg-[var(--color-card)] shadow-xl transition relative group"
           >
-            <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-[var(--color-primary)] group-hover:shadow-[0_0_40px_rgba(37,99,235,0.3)] transition" />
+            <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-[var(--color-primary)] group-hover:shadow-[0_0_40px_rgba(37,99,235,0.3)] transition pointer-events-none" />
 
             <FaUpload className="mx-auto text-6xl text-[var(--color-primary)] mb-6" />
             <h4 className="font-semibold mb-2 text-lg">Drag & Drop your file</h4>
@@ -165,7 +204,16 @@ export default function Home() {
 
             <label className="inline-block bg-[var(--color-primary)] text-white px-6 py-3 rounded-xl cursor-pointer hover:opacity-90">
               Choose File
-              <input type="file" hidden onChange={(e) => setFile(e.target.files[0])} />
+              <input
+                type="file"
+                hidden
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const selected = e.target.files?.[0] || null;
+                  setFile(selected);
+                }}
+              />
+
+
             </label>
 
             {/* FILE CARD ANIMATION */}
@@ -182,6 +230,39 @@ export default function Home() {
               </motion.div>
             )}
           </motion.div>
+
+          {preview && (
+            <div className="mt-4">
+              {file && file.type.startsWith("image/") && (
+                <img src={preview} alt="preview" className="mx-auto max-h-40 rounded-lg shadow" />
+              )}
+              {file && file.type.startsWith("video/") && (
+                <video src={preview} controls className="mx-auto max-h-40 rounded-lg shadow" />
+              )}
+            </div>
+          )}
+
+          {/* BUTTON COMPRESS */}
+          {file && !downloadUrl && (
+            <button
+              onClick={handleCompress}
+              className="mt-6 bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90"
+            >
+              {loading ? "Compressing..." : "Compress File"}
+            </button>
+          )}
+
+          {/* BUTTON DOWNLOAD */}
+          {downloadUrl && (
+            <a
+              href={downloadUrl}
+              download="compressed-file"
+              className="mt-6 block bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold"
+            >
+              Download Compressed File
+            </a>
+          )}
+
 
           <motion.div variants={fadeUp} className="mt-10 flex flex-col md:flex-row justify-center gap-6 text-xs opacity-60">
             <span>🔒 Files auto deleted</span>
