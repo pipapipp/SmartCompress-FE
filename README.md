@@ -24,7 +24,7 @@ The frontend sends uploaded files to the SmartCompress backend API.
 The backend processes and compresses the file, then returns the optimized version for download.
 
 👉 Backend Repository:  
-**https://github.com/pipapipp/smartcompress-backend**
+**https://github.com/pipapipp/smartcompress-BE**
 
 ---
 
