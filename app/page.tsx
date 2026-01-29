@@ -41,7 +41,7 @@ export default function Home() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/compress-image", {
+      const res = await fetch("http://localhost:5000/compress", {
         method: "POST",
         body: formData,
       });
