@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 SmartCompress Frontend
 
-## Getting Started
+SmartCompress is a modern web application that allows users to compress images, videos, and documents directly from the browser through a clean and intuitive interface.
 
-First, run the development server:
+This repository contains the **frontend** built with **Next.js**.
+
+---
+
+## ✨ Features
+
+- 📤 Simple file upload experience  
+- 🖼 Image compression support  
+- 🎥 Video compression support  
+- 📄 Document compression support  
+- 📱 Fully responsive (Desktop & Mobile)  
+- 🎨 Modern, user-friendly UI/UX  
+- ⚡ Fast communication with backend API  
+
+---
+
+## 🧠 How It Works
+
+The frontend sends uploaded files to the SmartCompress backend API.  
+The backend processes and compresses the file, then returns the optimized version for download.
+
+👉 Backend Repository:  
+**https://github.com/pipapipp/smartcompress-backend**
+
+---
+
+## 🛠 Tech Stack
+
+- **Next.js** – React framework for modern web apps  
+- **TypeScript** – Type-safe JavaScript  
+- **Tailwind CSS** – Utility-first styling  
+- **Fetch API** – Communication with backend  
+
+---
+
+## ▶️ Run Locally
+
+Make sure Node.js is installed.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+## App will run at:
+http://localhost:3000
+⚠️ Ensure the backend server is running on http://localhost:5000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📌 Project Purpose
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project was built as a full-stack portfolio application to demonstrate:
+- Frontend engineering skills
+- UI/UX design thinking
+- API integration
+- Building real-world web applications
